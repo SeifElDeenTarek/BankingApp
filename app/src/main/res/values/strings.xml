@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BankingApp</string>
+    <string name="transfer_money">Transfer Money</string>
 </resources>
