@@ -21,11 +21,7 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder>
 {
     private List<UserModel> usersList = new ArrayList<>();
-
-    public UserAdapter(List<UserModel> usersList)
-    {
-        this.usersList = usersList;
-    }
+    itemClickListener itemClickListener;
 
     @NonNull
     @Override
@@ -35,10 +31,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull UserViewHolder holder, final int position)
     {
         holder.userName.setText(usersList.get(position).getUserName());
         holder.userBalance.setText(usersList.get(position).getUserBalance());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                itemClickListener.onItemClick(usersList.get(position));
+            }
+        });
     }
 
     @Override
@@ -47,10 +52,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return usersList.size();
     }
 
-    public void setUsersList(List<UserModel> usersList)
+    public void setUsersList(List<UserModel> usersList, itemClickListener itemClickListener)
     {
         this.usersList = usersList;
+        this.itemClickListener = itemClickListener;
         notifyDataSetChanged();
+    }
+
+    public interface itemClickListener
+    {
+        void onItemClick(UserModel userModel);
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder
