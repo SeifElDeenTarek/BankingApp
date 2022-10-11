@@ -2,6 +2,7 @@ package com.example.bankingapp.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.example.bankingapp.ui.transfer.TransferActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static androidx.constraintlayout.widget.StateSet.TAG;
 
 public class UserFragment extends Fragment
 {
@@ -41,7 +44,7 @@ public class UserFragment extends Fragment
         userEmail = rootView.findViewById(R.id.email_details);
         userBalance = rootView.findViewById(R.id.balance_details);
 
-        Button transfer = rootView.findViewById(R.id.transfer_details);
+        final Button transfer = rootView.findViewById(R.id.transfer_details);
 
 
         final List<UserModel> users = new ArrayList<>();
@@ -74,7 +77,7 @@ public class UserFragment extends Fragment
         userAdapter.setUsersList(users, new UserAdapter.itemClickListener()
         {
             @Override
-            public void onItemClick(UserModel userModel)
+            public void onItemClick(final UserModel userModel)
             {
                 details.setVisibility(View.VISIBLE);
                 userName.setText("Name:" + userModel.getUserName());
@@ -82,19 +85,19 @@ public class UserFragment extends Fragment
                 userAge.setText("Age: "+ userModel.getAge());
                 userEmail.setText("Email: "+ userModel.getEmail());
                 userBalance.setText("Balance: " + userModel.getUserBalance());
+
+                transfer.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        transferIntent(userModel.getUserName(), userModel.getUserBalance());
+                    }
+                });
             }
         });
         userRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         userRecycler.setAdapter(userAdapter);
-
-        transfer.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                transferIntent(userName.toString(), userBalance.toString());
-            }
-        });
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true)
         {
@@ -112,8 +115,8 @@ public class UserFragment extends Fragment
     public Intent transferIntent(String name, String balance)
     {
         Intent transferIntent = new Intent(getContext(), TransferActivity.class);
-        transferIntent.putExtra("product_id", name);
-        transferIntent.putExtra("product_image_link", balance);
+        transferIntent.putExtra("sender_name", name);
+        transferIntent.putExtra("sender_balance", balance);
         startActivity(transferIntent);
         return transferIntent;
     }

@@ -29,6 +29,13 @@ public class MainActivity extends AppCompatActivity
         viewPager.setAdapter(fragmentAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs);
 
+        boolean transferred = getIntent().getBooleanExtra("transferred", false);
+
+        if(transferred)
+        {
+            viewPager.setCurrentItem(1);
+        }
+
         new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy()
         {
             @Override
