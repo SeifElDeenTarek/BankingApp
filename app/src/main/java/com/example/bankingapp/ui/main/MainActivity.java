@@ -12,12 +12,17 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.bankingapp.R;
+import com.example.bankingapp.data.UsersDataBase;
+import com.example.bankingapp.pojo.UserModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import io.reactivex.CompletableObserver;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity
 {
-    public static boolean DETAILS = false;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

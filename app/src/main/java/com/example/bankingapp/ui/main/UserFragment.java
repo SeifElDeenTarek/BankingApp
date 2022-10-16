@@ -12,15 +12,23 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bankingapp.R;
+import com.example.bankingapp.data.UsersDataBase;
 import com.example.bankingapp.pojo.UserModel;
 import com.example.bankingapp.ui.transfer.TransferActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.CompletableObserver;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static androidx.constraintlayout.widget.StateSet.TAG;
 
@@ -29,10 +37,16 @@ public class UserFragment extends Fragment
     public UserFragment()
     {}
 
+    UserViewModel userViewModel;
+    UsersDataBase usersDataBase;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView =inflater.inflate(R.layout.user_list, container, false);
+
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getUsers();
 
         RecyclerView userRecycler = rootView.findViewById(R.id.users_recycler_view);
         final CardView details = rootView.findViewById(R.id.details);
@@ -46,58 +60,114 @@ public class UserFragment extends Fragment
 
         final Button transfer = rootView.findViewById(R.id.transfer_details);
 
-
-        final List<UserModel> users = new ArrayList<>();
-        users.add(new UserModel("Seif El-Deen", "011XXXXXXXXX",
-                "name@email.com", "1000000000", "25"));
-        users.add(new UserModel("Ahmed Ahmed", "011XXXXXXXXX",
-                "name@email.com", "1000000", "25"));
-        users.add(new UserModel("Mostafa Mostafa", "011XXXXXXXXX",
-                "name@email.com", "500000000", "25"));
-        users.add(new UserModel("Ibrahim Ibrahim", "011XXXXXXXXX",
-                "name@email.com", "65900000", "25"));
-        users.add(new UserModel("Alaa Alaa", "011XXXXXXXXX",
-                "name@email.com", "900000", "25"));
-        users.add(new UserModel("Katy Perry", "011XXXXXXXXX",
-                "name@email.com", "99999999", "32"));
-        users.add(new UserModel("Lionel Messi", "011XXXXXXXXX",
-                "name@email.com", "100000000000", "32"));
-        users.add(new UserModel("Adel Emam", "011XXXXXXXXX",
-                "name@email.com", "9555250000", "70"));
-        users.add(new UserModel("Justin Bieber", "011XXXXXXXXX",
-                "name@email.com", "1065326000", "27"));
-        users.add(new UserModel("Mohamed Abo Treka", "011XXXXXXXXX",
-                "name@email.com", "999999999", "40"));
-        users.add(new UserModel("John Cena", "011XXXXXXXXX",
-                "name@email.com", "1000000000", "43"));
-        users.add(new UserModel("Dwayne Johnson", "011XXXXXXXXX",
-                "name@email.com", "1000000000", "54"));
-
-        UserAdapter userAdapter = new UserAdapter();
-        userAdapter.setUsersList(users, new UserAdapter.itemClickListener()
-        {
-            @Override
-            public void onItemClick(final UserModel userModel)
-            {
-                details.setVisibility(View.VISIBLE);
-                userName.setText("Name:" + userModel.getUserName());
-                userMob.setText("Mobile: " +userModel.getPhoneNumber());
-                userAge.setText("Age: "+ userModel.getAge());
-                userEmail.setText("Email: "+ userModel.getEmail());
-                userBalance.setText("Balance: " + userModel.getUserBalance());
-
-                transfer.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        transferIntent(userModel.getUserName(), userModel.getUserBalance());
-                    }
-                });
-            }
-        });
+        final UserAdapter userAdapter = new UserAdapter();
         userRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         userRecycler.setAdapter(userAdapter);
+
+        final UsersDataBase usersDataBase = UsersDataBase.getInstance(getContext());
+
+        if(usersDataBase.usersDao().getUsers() == null)
+        {
+            usersDataBase.usersDao().insertAllUsers(new UserModel(1,"Seif El-Deen", "011XXXXXXXXX",
+                    "name@email.com", "1000000000", "25"))
+                    .subscribeOn(Schedulers.computation())
+                    .subscribe(new CompletableObserver() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+                    });
+
+            usersDataBase.usersDao().insertAllUsers(new UserModel(2,"Mostafa", "011XXXXXXXXX",
+                    "name@email.com", "1000000000", "25"))
+                    .subscribeOn(Schedulers.computation())
+                    .subscribe(new CompletableObserver() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+                    });
+        }
+
+
+
+        userViewModel.userListMutableLiveData.observe(getViewLifecycleOwner(), new androidx.lifecycle.Observer<List<UserModel>>() {
+            @Override
+            public void onChanged(List<UserModel> userModels)
+            {
+                usersDataBase.usersDao().getUsers()
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<List<UserModel>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(List<UserModel> userModels) {
+
+                                userAdapter.setUsersList(userModels, new UserAdapter.itemClickListener()
+                                {
+                                    @Override
+                                    public void onItemClick(final UserModel userModel)
+                                    {
+
+                                        details.setVisibility(View.VISIBLE);
+                                        userName.setText("Name: " + userModel.getUserName());
+                                        userMob.setText("Mobile: " +userModel.getPhoneNumber());
+                                        userAge.setText("Age: "+ userModel.getAge());
+                                        userEmail.setText("Email: "+ userModel.getEmail());
+                                        userBalance.setText("Balance: " + userModel.getUserBalance());
+
+                                        transfer.setOnClickListener(new View.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(View v)
+                                            {
+                                                transferIntent(userModel.getId(), userModel.getUserName(), userModel.getPhoneNumber(),
+                                                        userModel.getAge(), userModel.getEmail(), userModel.getUserBalance());
+                                            }
+                                        });
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+
+            }
+        });
+
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true)
         {
@@ -112,10 +182,14 @@ public class UserFragment extends Fragment
         return rootView;
     }
 
-    public Intent transferIntent(String name, String balance)
+    public Intent transferIntent(int id, String name, String mobile, String age, String email, String balance)
     {
         Intent transferIntent = new Intent(getContext(), TransferActivity.class);
+        transferIntent.putExtra("id", id);
         transferIntent.putExtra("sender_name", name);
+        transferIntent.putExtra("sender_mobile", mobile);
+        transferIntent.putExtra("sender_age", age);
+        transferIntent.putExtra("sender_email", email);
         transferIntent.putExtra("sender_balance", balance);
         startActivity(transferIntent);
         return transferIntent;
