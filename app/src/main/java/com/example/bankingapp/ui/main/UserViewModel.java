@@ -40,16 +40,17 @@ public class UserViewModel extends ViewModel
     {
         ArrayList<UserModel> users = new ArrayList<>();
 
-//        users.add(new UserModel( "Seif El-Deen", "011XXXXXXXXX",
-  //              "name@email.com", "1000000000", "25"));
-    //    users.add(new UserModel( "Ahmed Ahmed", "011XXXXXXXXX",
-      //          "name@email.com", "1000000", "25"));
-        //users.add(new UserModel( "Mostafa Mostafa", "011XXXXXXXXX",
-        //        "name@email.com", "500000000", "25"));
         /**
-        users.add(new UserModel(4, "Ibrahim Ibrahim", "011XXXXXXXXX",
+        users.add(new UserModel(1, "Seif El-Deen", "011XXXXXXXXX",
+                "name@email.com", "1000000000", "25"));
+        users.add(new UserModel(2, "Menna Allah", "011XXXXXXXXX",
+                "name@email.com", "1000000", "25"));
+        users.add(new UserModel(3, "Mostafa Nagy", "011XXXXXXXXX",
+                "name@email.com", "500000000", "25"));
+
+        users.add(new UserModel(4, "Ibrahim Hassan", "011XXXXXXXXX",
                 "name@email.com", "65900000", "25"));
-        users.add(new UserModel(5, "Alaa Alaa", "011XXXXXXXXX",
+        users.add(new UserModel(5, "Alaa Mohamed", "011XXXXXXXXX",
                 "name@email.com", "900000", "25"));
         users.add(new UserModel(6, "Katy Perry", "011XXXXXXXXX",
                 "name@email.com", "99999999", "32"));
@@ -65,7 +66,7 @@ public class UserViewModel extends ViewModel
                 "name@email.com", "1000000000", "43"));
         users.add(new UserModel(12, "Dwayne Johnson", "011XXXXXXXXX",
                 "name@email.com", "1000000000", "54"));
-         **/
+**/
 
         return users;
     }

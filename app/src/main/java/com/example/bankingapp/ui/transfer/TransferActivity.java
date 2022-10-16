@@ -93,6 +93,9 @@ public class TransferActivity extends AppCompatActivity
                 amountTransferred = amount.getText().toString().trim();
                 newSenderBalance = currentBalance - Integer.parseInt(amountTransferred);
 
+                getReceiverBalance();
+
+                newReceiverBalance = Integer.parseInt(amountTransferred) + Integer.parseInt(receiverBalance);
 
                 transfersDataBase.transfersDao().insertTransfer(new TransferModel(senderName, receiverName, amountTransferred))
                         .subscribeOn(Schedulers.computation())
@@ -123,9 +126,6 @@ public class TransferActivity extends AppCompatActivity
 
                             @Override
                             public void onComplete() {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.putExtra("transferred", true);
-                                startActivity(intent);
 
                             }
 
@@ -134,6 +134,32 @@ public class TransferActivity extends AppCompatActivity
 
                             }
                         });
+
+
+
+                usersDataBase.usersDao().updateReceiver(newReceiverBalance, receiverName)
+                        .subscribeOn(Schedulers.computation())
+                        .subscribe(new CompletableObserver() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("transferred", true);
+                                startActivity(intent);
+
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                        });
+
 /**
                 transfersDataBase.transfersDao().insertTransfer(new TransferModel(senderName, receiverName, amountTransferred))
                         .subscribeOn(Schedulers.computation())
@@ -160,7 +186,6 @@ public class TransferActivity extends AppCompatActivity
                             }
                         });
 **/
-                Log.d(TAG, "TEST" + senderId + senderName + senderMobile + senderEmail + senderAge + finalBalance);
 
 /**
                 usersDataBase.usersDao().updateUser(new UserModel(senderName, senderMobile, senderEmail, senderAge, finalBalance))
@@ -184,5 +209,51 @@ public class TransferActivity extends AppCompatActivity
                         });**/
             }
         });
+    }
+
+    public String getReceiverBalance()
+    {
+        if(receiverName.equals("Seif El-Deen"))
+        {
+            receiverBalance = "1000000000";
+        }
+        else if(receiverName.equals("Dwayne Johnson"))
+        {
+            receiverBalance = "1000000000";
+        }
+        else if(receiverName.equals("Mostafa Nagy"))
+        {
+            receiverBalance = "500000000";
+        }
+        else if(receiverName.equals("Ibrahim Hassan"))
+        {
+            receiverBalance = "65900000";
+        }
+        else if(receiverName.equals("John Cena"))
+        {
+            receiverBalance = "1000000000";
+        }
+        else if(receiverName.equals("Katy Perry"))
+        {
+            receiverBalance = "99999999";
+        }
+        else if(receiverName.equals("Lionel Messi"))
+        {
+            receiverBalance = "100000000000";
+        }
+        else if(receiverName.equals("Adel Emam"))
+        {
+            receiverBalance = "9555250000";
+        }
+        else if(receiverName.equals("Justin Bieber"))
+        {
+            receiverBalance = "1065326000";
+        }
+        else if(receiverName.equals("Mohamed Abo Treka"))
+        {
+            receiverBalance = "999999999";
+        }
+
+        return receiverBalance;
     }
 }

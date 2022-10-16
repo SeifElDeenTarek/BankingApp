@@ -64,49 +64,11 @@ public class UserFragment extends Fragment
         userRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         userRecycler.setAdapter(userAdapter);
 
-        final UsersDataBase usersDataBase = UsersDataBase.getInstance(getContext());
+        usersDataBase = UsersDataBase.getInstance(getContext());
 
         if(usersDataBase.usersDao().getUsers() == null)
         {
-            usersDataBase.usersDao().insertAllUsers(new UserModel(1,"Seif El-Deen", "011XXXXXXXXX",
-                    "name@email.com", "1000000000", "25"))
-                    .subscribeOn(Schedulers.computation())
-                    .subscribe(new CompletableObserver() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-                    });
-
-            usersDataBase.usersDao().insertAllUsers(new UserModel(2,"Mostafa", "011XXXXXXXXX",
-                    "name@email.com", "1000000000", "25"))
-                    .subscribeOn(Schedulers.computation())
-                    .subscribe(new CompletableObserver() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-                    });
+            users();
         }
 
 
@@ -193,5 +155,208 @@ public class UserFragment extends Fragment
         transferIntent.putExtra("sender_balance", balance);
         startActivity(transferIntent);
         return transferIntent;
+    }
+
+    public void users()
+    {
+        usersDataBase.usersDao().insertAllUsers(new UserModel(1, "Seif El-Deen", "011XXXXXXXXX",
+                "name@email.com", "1000000000", "25"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(2, "Dwayne Johnson", "011XXXXXXXXX",
+                "name@email.com", "1000000000", "54"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(3, "Mostafa Nagy", "011XXXXXXXXX",
+                "name@email.com", "500000000", "25"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(4, "Ibrahim Hassan", "011XXXXXXXXX",
+                "name@email.com", "65900000", "25"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(5, "John Cena", "011XXXXXXXXX",
+                "name@email.com", "1000000000", "43"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(6, "Katy Perry", "011XXXXXXXXX",
+                "name@email.com", "99999999", "32"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(7, "Lionel Messi", "011XXXXXXXXX",
+                "name@email.com", "100000000000", "32"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(8, "Adel Emam", "011XXXXXXXXX",
+                "name@email.com", "9555250000", "70"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(9, "Justin Bieber", "011XXXXXXXXX",
+                "name@email.com", "1065326000", "27"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+
+        usersDataBase.usersDao().insertAllUsers(new UserModel(10, "Mohamed Abo Treka", "011XXXXXXXXX",
+                "name@email.com", "999999999", "40"))
+                .subscribeOn(Schedulers.computation())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 }
